@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GuitarZone - Электро-гитары</title>
+   
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+     
+    .card {
+        border-radius: 30px; /* ещё более округлые углы */
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        margin-bottom: 1.5rem;
+    }
+    .card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 12px 20px rgba(0,0,0,0.2);
+    }
+    .card-body {
+        text-align: center;
+    }
+    .nav-link{
+    font-size: 20px;
+}
+    .btn-black {
+        background-color: #000;
+        color: #fff;
+        font-weight: bold;
+        border-radius: 20px;
+        padding-left: 1.5rem;
+        padding-right: 1.5rem;
+    }
+    .btn-black:hover {
+        background-color: #333;
+    }
+
+
+        .btn-black:hover {
+    background-color: #333;
+    color: #00bfff; /* голубой цвет текста */
+}
+
+/* .fw-bold{
+     list-style: none;
+            outline: none;
+            text-decoration: none; */
+/* } */
+/* a{
+    text-decoration: none;
+    color: rgb(217, 37, 214);
+    font-size: 20px;
+} */
+
+        body {
+           
+            background-color: #f0f0f0;
+            font-family: 'Roboto', sans-serif;
+        }
+        .card-img-top {
+            height: 200px;
+            object-fit: cover;
+        }
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+        .toast-container {
+            position: fixed;
+            top: 1rem;
+            right: 1rem;
+            z-index: 1055;
+        }
+        .list-group-item + .list-group-item {
+            margin-top: 10px;
+        }
+        .btn-black {
+            background-color: #000;
+            color: #fff;
+            font-weight: bold;
+        }
+        .btn-black:hover {
+            background-color: #333;
+        }
+        
+        h5.card-title, .card-text, .modal-title, .nav-link, .logo, .toast-body, .btn {
+            font-weight: bold;
+        }
+        .card {
+            border-radius: 15px;
+        }
+        .card-body {
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <!-- Навбар -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container">
+            <a class="navbar-brand logo" href="#">🎸 GuitarZone</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" data-bs-toggle="modal" data-bs-target="#cartModal">🛒 Корзина <span class="badge bg-secondary" id="cart-count">0</span></a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Товары -->
+    <div class="container my-5">
+        <div class="row" id="product-list">
+            <!-- 9 карточек товара -->
+        </div>
+    </div>
+
+    <!-- Модальное окно корзины -->
+    <div class="modal fade" id="cartModal" tabindex="-1" aria-labelledby="cartModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="cartModalLabel">Ваша корзина</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Закрыть"></button>
+                </div>
+                <div class="modal-body" id="cart-items">
+                    <p>Корзина пуста.</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
+                    <button type="button" class="btn btn-success" id="purchase-btn" style="display:none" onclick="purchase()">Купить</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast уведомление -->
+    <div class="toast-container">
+        <div id="addedToast" class="toast align-items-center text-white bg-success border-0" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="d-flex">
+                <div class="toast-body">
+                    Товар добавлен в корзину!
+                </div>
+                <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Закрыть"></button>
+            </div>
+        </div>
+    </div>
+
+<!-- Модальное окно товара -->
+<div class="modal fade" id="productModal" tabindex="-1" aria-labelledby="productModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="productModalLabel">Название товара</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Закрыть"></button>
+      </div>
+      <div class="modal-body d-flex flex-column flex-md-row align-items-center gap-4">
+        <img id="modalProductImg" src="" alt="Фото товара" class="img-fluid rounded" style="max-width: 400px;"/>
+        <div>
+          <h4 id="modalProductName"></h4>
+          <p id="modalProductPrice" class="fs-5 text-success"></p>
+          <p id="modalProductDescription">Здесь можно добавить подробное описание товара.</p>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
+        <button type="button" class="btn btn-black" id="modalAddToCartBtn">Добавить в корзину</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- пше -->
+
+
+
+    <script>
+        const products = [
+            { name: "Fender Stratocaster", price: 1200, img: "https://st3.depositphotos.com/1048902/19282/i/450/depositphotos_192825410-stock-photo-body-of-the-electric-guitar.jpg" },
+            { name: "Gibson Les Paul", price: 1500, img: "https://st4.depositphotos.com/33196832/41013/i/450/depositphotos_410139148-stock-photo-electric-guitar-wooden-board-glass.jpgg" },
+            { name: "Ibanez RG", price: 900, img: "https://t4.ftcdn.net/jpg/00/55/16/11/360_F_55161122_hdUWQCduQCBDELcCOMkTLSXiHLIMe5vB.jpg" },
+            { name: "PRS SE Custom", price: 1000, img: "https://skifmusic.ru/static/article/2998/81-1e8.webp" },
+            { name: "Yamaha Pacifica", price: 700, img: "https://ru.yamaha.com/ru/files/pac200_overview_b55ceada22d5bf1fe01ca6a5600a04d7.jpg?impolicy=resize&imwid=700&imhei=400" },
+            { name: "Schecter Hellraiser", price: 1100, img: "https://cs10.pikabu.ru/post_img/big/2018/04/30/5/1525074529191896301.jpg" },
+            { name: "ESP LTD EC-1000", price: 1300, img: "https://c.pxhere.com/photos/5e/c8/photo-1622466.jpg!d" },
+            { name: "Jackson Dinky", price: 950, img: "https://samesound.ru/wp-content/uploads/2016/05/guitar-wood-maple-01.jpg" },
+            { name: "Charvel Pro-Mod", price: 980, img: "https://skifmusic.ru/static/article/003/184/3184-88e139b348eb71cb408be8e61553eb65.webp" }
+        ];
+
+        let cart = [];
+
+        function renderProducts() {
+            const productList = document.getElementById('product-list');
+            productList.innerHTML = '';
+            products.forEach((product, index) => {
+                productList.innerHTML += `
+                    <div class="col-md-4 mb-4">
+                        <div class="card">
+                            <img src="${product.img}" class="card-img-top" alt="${product.name}">
+                            <div class="card-body">
+                                <h5 class="card-title">${product.name}</h5>
+                                <p class="card-text">Цена: $${product.price}</p>
+                                <button class="btn btn-black mt-3" onclick="addToCart(${index})">Добавить в корзину</button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+        }
+
+        function addToCart(index) {
+            cart.push(products[index]);
+            updateCart();
+            showToast();
+        }
+
+        function updateCart() {
+            const cartItems = document.getElementById('cart-items');
+            const cartCount = document.getElementById('cart-count');
+            const purchaseBtn = document.getElementById('purchase-btn');
+
+            if (cart.length === 0) {
+                cartItems.innerHTML = '<p>Корзина пуста.</p>';
+                purchaseBtn.style.display = 'none';
+            } else {
+                cartItems.innerHTML = '<ul class="list-group">';
+                cart.forEach((item, idx) => {
+                    cartItems.innerHTML += `<li class="list-group-item d-flex justify-content-between align-items-center mb-2">
+                        ${item.name} - $${item.price}
+                        <button class="btn btn-sm btn-danger" onclick="removeFromCart(${idx})">Удалить</button>
+                    </li>`;
+                });
+                cartItems.innerHTML += '</ul>';
+                purchaseBtn.style.display = 'inline-block';
+            }
+            cartCount.textContent = cart.length;
+        }
+        function renderProducts() {
+    const productList = document.getElementById('product-list');
+    productList.innerHTML = '';
+    products.forEach((product, index) => {
+        productList.innerHTML += `
+            <div class="col-md-4 mb-4">
+                <div class="card" style="cursor:pointer;" onclick="openProductModal(${index})">
+                    <img src="${product.img}" class="card-img-top" alt="${product.name}">
+                    <div class="card-body text-center">
+                        <h5 class="card-title">${product.name}</h5>
+                        <p class="card-text">Цена: $${product.price}</p>
+                        <button class="btn btn-black mt-3" onclick="event.stopPropagation(); addToCart(${index});">Добавить в корзину</button>
+                    </div>
+                </div>
+            </div>
+        `;
+    });
+}
+
+function openProductModal(index) {
+    const product = products[index];
+    const modal = new bootstrap.Modal(document.getElementById('productModal'));
+
+    document.getElementById('productModalLabel').textContent = product.name;
+    document.getElementById('modalProductImg').src = product.img;
+    document.getElementById('modalProductImg').alt = product.name;
+    document.getElementById('modalProductName').textContent = product.name;
+    document.getElementById('modalProductPrice').textContent = `Цена: $${product.price}`;
+    // Можно добавить подробное описание, если есть
+    document.getElementById('modalProductDescription').textContent = "Высококачественная электро-гитара с превосходным звуком и стильным дизайном.";
+
+    // Настраиваем кнопку "Добавить в корзину" в модалке
+    const addBtn = document.getElementById('modalAddToCartBtn');
+    addBtn.onclick = () => {
+        addToCart(index);
+        modal.hide();
+        showToast();
+    };
+
+    modal.show();
+}
+
+
+        function removeFromCart(index) {
+            cart.splice(index, 1);
+            updateCart();
+        }
+
+        function purchase() {
+            alert('Покупка совершена');
+            cart = [];
+            updateCart();
+        }
+
+        function showToast() {
+            const toastEl = document.getElementById('addedToast');
+            const toast = new bootstrap.Toast(toastEl);
+            toast.show();
+        }
+
+        
+
+
+        renderProducts();
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
