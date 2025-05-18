@@ -10,7 +10,7 @@
     <style>
      
     .card {
-        border-radius: 30px; /* ещё более округлые углы */
+        border-radius: 30px; 
         transition: transform 0.3s ease, box-shadow 0.3s ease;
         box-shadow: 0 4px 8px rgba(0,0,0,0.1);
         margin-bottom: 1.5rem;
@@ -40,19 +40,10 @@
 
         .btn-black:hover {
     background-color: #333;
-    color: #00bfff; /* голубой цвет текста */
+    color: #00bfff; 
 }
 
-/* .fw-bold{
-     list-style: none;
-            outline: none;
-            text-decoration: none; */
-/* } */
-/* a{
-    text-decoration: none;
-    color: rgb(217, 37, 214);
-    font-size: 20px;
-} */
+
 
         body {
            
@@ -97,7 +88,7 @@
     </style>
 </head>
 <body>
-    <!-- Навбар -->
+   
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container">
             <a class="navbar-brand logo" href="#">🎸 GuitarZone</a>
@@ -114,14 +105,14 @@
         </div>
     </nav>
 
-    <!-- Товары -->
+  
     <div class="container my-5">
         <div class="row" id="product-list">
-            <!-- 9 карточек товара -->
+          
         </div>
     </div>
 
-    <!-- Модальное окно корзины -->
+  
     <div class="modal fade" id="cartModal" tabindex="-1" aria-labelledby="cartModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
@@ -140,7 +131,7 @@
         </div>
     </div>
 
-    <!-- Toast уведомление -->
+
     <div class="toast-container">
         <div id="addedToast" class="toast align-items-center text-white bg-success border-0" role="alert" aria-live="assertive" aria-atomic="true">
             <div class="d-flex">
@@ -152,7 +143,7 @@
         </div>
     </div>
 
-<!-- Модальное окно товара -->
+
 <div class="modal fade" id="productModal" tabindex="-1" aria-labelledby="productModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-lg modal-dialog-centered">
     <div class="modal-content">
@@ -175,7 +166,7 @@
     </div>
   </div>
 </div>
-<!-- пше -->
+
 
 
 
@@ -268,10 +259,10 @@ function openProductModal(index) {
     document.getElementById('modalProductImg').alt = product.name;
     document.getElementById('modalProductName').textContent = product.name;
     document.getElementById('modalProductPrice').textContent = `Цена: $${product.price}`;
-    // Можно добавить подробное описание, если есть
+   
     document.getElementById('modalProductDescription').textContent = "Высококачественная электро-гитара с превосходным звуком и стильным дизайном.";
 
-    // Настраиваем кнопку "Добавить в корзину" в модалке
+   
     const addBtn = document.getElementById('modalAddToCartBtn');
     addBtn.onclick = () => {
         addToCart(index);
